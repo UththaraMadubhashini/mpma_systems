@@ -9,18 +9,18 @@ import AddIcon from "@mui/icons-material/Add";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-// import Header from "../Components/Header/Header";
+
 
 function Course() {
   return (
     <div>
       {/* <Header /> */}
-      <Container maxWidth="lg" sx={{ marginTop: "150px", marginLeft:"250px" }}>
+      <Container maxWidth="lg" sx={{ marginTop: "-15px", marginLeft:"275px" }}>
         {/* Page Title */}
-        <Typography variant="h5" color="primary" gutterBottom>
+        <Typography variant="h5" color="primary" gutterBottom sx={{marginLeft:"-20px"}}>
           Course & Batch Management
         </Typography>
-        <Typography variant="body2" color="textSecondary" gutterBottom>
+        <Typography variant="body2" color="textSecondary" gutterBottom sx={{marginLeft:"-20px"}}>
           Home / Course & Batch Management
         </Typography>
 
@@ -31,7 +31,7 @@ function Course() {
             flexWrap: "wrap",
             justifyContent: "space-around",
             marginTop: "20px",
-            marginLeft:"50px"
+            marginLeft:"-20px"
           }}
         >
           {/* Course Registration Button */}
