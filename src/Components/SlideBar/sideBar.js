@@ -12,7 +12,7 @@ import WorkIcon from "@mui/icons-material/Work";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 const menuItems = [
-  { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
+  { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
   { text: "Administration Management", icon: <PeopleIcon />, path: "/admin-management", disabled: true },
   { text: "Course & Batch Management", icon: <ClassIcon />, path: "/course" },
   { text: "Student Management", icon: <SchoolIcon />, path: "/student-management", disabled: true },

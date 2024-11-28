@@ -21,14 +21,17 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "../Components/Layouts/Layout";
-import Course from "../Pages/course"
+import Course from "../Pages/Course_Batch/subCourseHome"
+import Dashboard from "../Pages/Dashboard";
+import CourseRegistration from "../Pages/Course_Batch/courseRegistration";
 
 const Routers = () => {
   return (
-    <Routes>
+      <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index element={<div>Welcome to the Dashboard</div>} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/course" element={<Course />} />
+        <Route path="/course-registration" element={<CourseRegistration />} />
       </Route>
     </Routes>
   );
