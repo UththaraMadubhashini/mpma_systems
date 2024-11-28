@@ -5,13 +5,13 @@ import {
   Button,
   Typography,
   Grid,
-  /*IconButton,*/
+  Divider,
+  IconButton,
 } from "@mui/material";
-/*import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";*/
-import axios from "axios";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 const CostInPage = () => {
-  // State for the main form
   const [formData, setFormData] = useState({
     courseName: "",
     participants: "",
@@ -24,30 +24,32 @@ const CostInPage = () => {
     transport: "",
   });
 
-  // State for SLPA and Outside Resource Personnel tables
   const [slpaRows, setSlpaRows] = useState([
     { category: "Category – A", hrs: "", rate: "" },
-    { category: "Category – B", hrs: "", rate: "" },
-    { category: "Category – C", hrs: "", rate: "" },
   ]);
 
   const [outsideRows, setOutsideRows] = useState([
     { category: "Category – A", hrs: "", rate: "" },
-    { category: "Category – B", hrs: "", rate: "" },
-    { category: "Category – C", hrs: "", rate: "" },
   ]);
 
-  // Handlers for the main form
+  // Handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handlers for table rows
+  // Add new row to table
   const handleAddMore = (setRows, rows) => {
     setRows([...rows, { category: "New Category", hrs: "", rate: "" }]);
   };
 
+  // Delete a row from table
+  const handleDeleteRow = (index, rows, setRows) => {
+    const updatedRows = rows.filter((_, i) => i !== index);
+    setRows(updatedRows);
+  };
+
+  // Handle table input changes
   const handleInputChange = (e, index, rows, setRows) => {
     const { name, value } = e.target;
     const updatedRows = [...rows];
@@ -55,33 +57,34 @@ const CostInPage = () => {
     setRows(updatedRows);
   };
 
-  // Form submit handler
-  const handleSubmit = async (e) => {
+  // Calculate total for a table
+  const calculateTotal = (rows) => {
+    return rows.reduce(
+      (sum, row) => sum + (parseFloat(row.hrs) || 0) * (parseFloat(row.rate) || 0),
+      0
+    );
+  };
+
+  // Submit form handler
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const combinedData = {
+    console.log({
       ...formData,
       slpaRows,
       outsideRows,
-    };
-
-    try {
-      const response = await axios.post(
-        "http://localhost/backend/save_form.php",
-        combinedData
-      );
-      alert(response.data.message);
-    } catch (error) {
-      console.error("Error submitting the form", error);
-    }
+    });
   };
 
   return (
-    <Box p={3} sx={{ maxWidth: 750, margin: "auto", bgcolor: "#f9f9f9", borderRadius: 8 }}>
-      <Typography variant="h5" alig="center" mb={3}>
-        Course & Batch Management Form
+    <Box p={3} sx={{ maxWidth: 1000, margin: "0 auto", bgcolor: "#f9f9f9", borderRadius: 2 }}>
+      <Typography variant="h5" align="center" mb={3}>
+        Course & Batch Management: Cost-In
       </Typography>
       <form onSubmit={handleSubmit}>
-        {/* Main Form Fields */}
+        {/* Section: Course Details */}
+        <Typography variant="h6" mb={2}>
+          Course Details
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -124,61 +127,12 @@ const CostInPage = () => {
               required
             />
           </Grid>
-          <Typography variant="h6" mt={2} mb={1}>
-            A. Course Development Work
-          </Typography>
-          <Grid item xs={6}>
-            <TextField
-              label="Resource Personnel - No of Panel Meetings"
-              name="panelMeetings"
-              value={formData.panelMeetings}
-              onChange={handleChange}
-              type="number"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Resource Personnel - No of Personnel"
-              name="personnelCount"
-              value={formData.personnelCount}
-              onChange={handleChange}
-              type="number"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Value of Refreshment"
-              name="refreshmentValue"
-              value={formData.refreshmentValue}
-              onChange={handleChange}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Documentation"
-              name="documentation"
-              value={formData.documentation}
-              onChange={handleChange}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Transport (Km)"
-              name="transport"
-              value={formData.transport}
-              onChange={handleChange}
-              type="number"
-              fullWidth
-            />
-          </Grid>
         </Grid>
 
-        {/* SLPA - Resources Personnel */}
-        <Typography variant="h6" mt={4} mb={2}>
+        <Divider sx={{ my: 3 }} />
+
+        {/* Section: SLPA Resources */}
+        <Typography variant="h6" mb={2}>
           SLPA - Resources Personnel
         </Typography>
         <Grid container spacing={2}>
@@ -193,43 +147,54 @@ const CostInPage = () => {
                   disabled
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <TextField
                   label="Hrs"
                   name="hrs"
                   value={row.hrs}
-                  onChange={(e) =>
-                    handleInputChange(e, index, slpaRows, setSlpaRows)
-                  }
+                  onChange={(e) => handleInputChange(e, index, slpaRows, setSlpaRows)}
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <TextField
-                  label="Rate per hr./ Cost"
+                  label="Rate per hr./Cost"
                   name="rate"
                   value={row.rate}
-                  onChange={(e) =>
-                    handleInputChange(e, index, slpaRows, setSlpaRows)
-                  }
+                  onChange={(e) => handleInputChange(e, index, slpaRows, setSlpaRows)}
                   fullWidth
                 />
+              </Grid>
+              <Grid item xs={2}>
+                <IconButton
+                  color="error"
+                  onClick={() => handleDeleteRow(index, slpaRows, setSlpaRows)}
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
               </Grid>
             </React.Fragment>
           ))}
           <Grid item xs={12}>
             <Button
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              startIcon={<AddCircleOutlineIcon />}
               onClick={() => handleAddMore(setSlpaRows, slpaRows)}
             >
               Add More
             </Button>
           </Grid>
+          <Grid item xs={12} textAlign="right" mt={2}>
+            <Typography variant="subtitle1">
+              Total: {calculateTotal(slpaRows).toFixed(2)} LKR
+            </Typography>
+          </Grid>
         </Grid>
 
-        {/* Outside - Resources Personnel */}
-        <Typography variant="h6" mt={4} mb={2}>
+        <Divider sx={{ my: 3 }} />
+
+        {/* Section: Outside Resources */}
+        <Typography variant="h6" mb={2}>
           Outside - Resources Personnel
         </Typography>
         <Grid container spacing={2}>
@@ -244,47 +209,56 @@ const CostInPage = () => {
                   disabled
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <TextField
                   label="Hrs"
                   name="hrs"
                   value={row.hrs}
-                  onChange={(e) =>
-                    handleInputChange(e, index, outsideRows, setOutsideRows)
-                  }
+                  onChange={(e) => handleInputChange(e, index, outsideRows, setOutsideRows)}
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <TextField
-                  label="Rate per hr./ Cost"
+                  label="Rate per hr./Cost"
                   name="rate"
                   value={row.rate}
-                  onChange={(e) =>
-                    handleInputChange(e, index, outsideRows, setOutsideRows)
-                  }
+                  onChange={(e) => handleInputChange(e, index, outsideRows, setOutsideRows)}
                   fullWidth
                 />
+              </Grid>
+              <Grid item xs={2}>
+                <IconButton
+                  color="error"
+                  onClick={() => handleDeleteRow(index, outsideRows, setOutsideRows)}
+                >
+                  <RemoveCircleOutlineIcon />
+                </IconButton>
               </Grid>
             </React.Fragment>
           ))}
           <Grid item xs={12}>
             <Button
-              variant="contained"
-              color="primary"
+              variant="outlined"
+              startIcon={<AddCircleOutlineIcon />}
               onClick={() => handleAddMore(setOutsideRows, outsideRows)}
             >
               Add More
             </Button>
           </Grid>
+          <Grid item xs={12} textAlign="right" mt={2}>
+            <Typography variant="subtitle1">
+              Total: {calculateTotal(outsideRows).toFixed(2)} LKR
+            </Typography>
+          </Grid>
         </Grid>
 
         {/* Submit Button */}
-        <Grid item xs={12} textAlign="center" mt={4}>
-          <Button variant="contained" type="submit">
+        <Box mt={4} textAlign="center">
+          <Button variant="contained" color="primary" type="submit">
             Submit
           </Button>
-        </Grid>
+        </Box>
       </form>
     </Box>
   );
