@@ -54,6 +54,18 @@ const CompleteCourseManagement = () => {
     { category: "Co-ordination", hrs: "", rate: "" },
   ]);
 
+
+    const [rows, setRows] = useState([
+      { description: "Transport - Km", qty: "", rate: "", amount: "" },
+      { description: "Tea", qty: "", rate: "", amount: "" },
+      { description: "Meals", qty: "", rate: "", amount: "" },
+      { description: "Certificates", qty: "", rate: "", amount: "" },
+      { description: "Teaching Aids / Multimedia", qty: "", rate: "", amount: "" },
+      { description: "Incidental Cost", qty: "", rate: "", amount: "" },
+      { description: "Maintenance Cost", qty: "", rate: "", amount: "" },
+      { description: "Administration Cost", qty: "", rate: "", amount: "" },
+    ]);
+
   /*const [coordination, setCoordination] = useState({ hrs: "", rate: "" });*/
 
   const handleCourseInfoChange = (field, value) => {
