@@ -9,13 +9,11 @@ function Dashboard() {
   return (
     <div>
       {/* <Header /> */}
-      <Container maxWidth="lg" sx={{ marginTop: "-15px", marginLeft:"275px" }}>
+      <Container maxWidth="lg" sx={{ marginTop: "-5px", marginLeft:"275px" }}>
         {/* Page Title */}
         <Typography variant="h5" color="primary" gutterBottom sx={{marginLeft:"-20px"}}>
           Course & Batch Management Dashboard
         </Typography>
-
-        
       </Container>
     </div>
   );

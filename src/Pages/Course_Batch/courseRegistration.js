@@ -9,9 +9,20 @@ import {
   Button,
   Grid,
   Divider,
+  MenuItem,
 } from "@mui/material";
 
-function CourseRegistration() { // Fixed component name
+
+const durations = ["Full Day", "Half Day", "Weeks", "Months"];
+const days = ["Week Days", "Week Ends", "Both"];
+const sessions = ["Full Day", "Half Day"];
+const maxLectureHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const categoryHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const breakevenOptions = [10, 15, 20, 25, 30];
+const maxStudentOptions = [10, 20, 30, 40, 50];
+
+function CourseRegistration() {
   const [formData, setFormData] = useState({
     courseId: "",
     stream: "",
@@ -22,7 +33,32 @@ function CourseRegistration() { // Fixed component name
     assessmentCriteria: [],
     fees: "",
     paymentConditions: "",
+
+    // Appendix B
+    duration: "",
+    durationType: "",
+    day: "",
+    dayType: "",
+    session: "",
+    sessionType: "",
+    maxLectureHours: "",
+    categoryA: "",
+    categoryB: "",
+    categoryC: "",
+
+    // Appendix C
+    breakeven: "",
+    maxStudentCount: "",
+    entryRequirement: "",
   });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleCheckboxChange = (field, value) => {
     setFormData((prev) => ({
@@ -38,24 +74,21 @@ function CourseRegistration() { // Fixed component name
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+
   return (
+    <>
     <Container maxWidth="md" sx={{ marginTop: 4, paddingBottom: 4 }}>
-      {/* Title */}
-      <Typography
-        variant="h5"
-        color="primary"
-        gutterBottom
-        sx={{ fontWeight: "bold", textAlign: "center" }}
-      >
-        Course & Batch Management
-      </Typography>
-      <Typography
-        variant="subtitle1"
-        color="textSecondary"
-        sx={{ marginBottom: 2, textAlign: "center" }}
-      >
-        Appendix A
-      </Typography>
+
+      {/* Header */}
+        <Typography variant="h5" color="primary" gutterBottom sx={{ marginTop: "100px"}}>
+          Course & Batch Management
+        </Typography>
+        <Typography variant="body2" color="textSecondary" gutterBottom sx={{ marginTop: "5px",}}>
+          Home / Course & Batch Management / Course Registration
+        </Typography>
+        <Typography variant="h6" color="textPrimary" sx={{ marginTop: 2 }}>
+          Appendix A
+        </Typography>
 
       <Box
         sx={{
@@ -221,27 +254,298 @@ function CourseRegistration() { // Fixed component name
           </Grid>
         </Grid>
 
-        {/* Divider */}
-        <Divider sx={{ marginY: 2 }} />
 
-        {/* Buttons */}
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: 2,
-          }}
-        >
-          <Button variant="outlined" color="primary">
-            Back
-          </Button>
-          <Button variant="contained" color="primary">
-            Next
-          </Button>
-        </Box>
       </Box>
     </Container>
+
+<Container maxWidth="md" sx={{ marginTop: 2 }}>
+  <Typography variant="h6" color="textPrimary" sx={{ marginTop: 2 }}>
+    Appendix B
+  </Typography>
+
+{/* Form Box */}
+<Box
+  sx={{
+    padding: 3,
+    border: "1px solid #ccc",
+    borderRadius: 2,
+    marginTop: 3,
+  }}
+>
+  <Grid container spacing={2}>
+    {/* Duration */}
+    <Grid item xs={6}>
+      <TextField
+        select
+        fullWidth
+        label="Duration"
+        name="duration"
+        value={formData.duration}
+        onChange={handleChange}
+        required
+      >
+        {durations.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+    <Grid item xs={6}>
+      <TextField
+        select
+        fullWidth
+        label="Type"
+        name="durationType"
+        value={formData.durationType}
+        onChange={handleChange}
+      >
+        {durations.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+
+    {/* Day */}
+    <Grid item xs={6}>
+      <TextField
+        select
+        fullWidth
+        label="Day"
+        name="day"
+        value={formData.day}
+        onChange={handleChange}
+        required
+      >
+        {days.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+    <Grid item xs={6}>
+      <TextField
+        select
+        fullWidth
+        label="Type"
+        name="dayType"
+        value={formData.dayType}
+        onChange={handleChange}
+      >
+        {days.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+
+    {/* Sessions */}
+    <Grid item xs={6}>
+      <TextField
+        select
+        fullWidth
+        label="Sessions"
+        name="session"
+        value={formData.session}
+        onChange={handleChange}
+        required
+      >
+        {sessions.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+    <Grid item xs={6}>
+      <TextField
+        select
+        fullWidth
+        label="Type"
+        name="sessionType"
+        value={formData.sessionType}
+        onChange={handleChange}
+      >
+        {sessions.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+
+    {/* Max Lecture Hours */}
+    <Grid item xs={12}>
+      <TextField
+        select
+        fullWidth
+        label="No of Maximum Lecture Hours"
+        name="maxLectureHours"
+        value={formData.maxLectureHours}
+        onChange={handleChange}
+        required
+      >
+        {maxLectureHours.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option} Hours
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+
+    {/* Categories */}
+    <Grid item xs={4}>
+      <TextField
+        select
+        fullWidth
+        label="Category A (Max Hours)"
+        name="categoryA"
+        value={formData.categoryA}
+        onChange={handleChange}
+        required
+      >
+        {categoryHours.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option} Hours
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+    <Grid item xs={4}>
+      <TextField
+        select
+        fullWidth
+        label="Category B (Max Hours)"
+        name="categoryB"
+        value={formData.categoryB}
+        onChange={handleChange}
+        required
+      >
+        {categoryHours.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option} Hours
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+    <Grid item xs={4}>
+      <TextField
+        select
+        fullWidth
+        label="Category C (Max Hours)"
+        name="categoryC"
+        value={formData.categoryC}
+        onChange={handleChange}
+        required
+      >
+        {categoryHours.map((option) => (
+          <MenuItem key={option} value={option}>
+            {option} Hours
+          </MenuItem>
+        ))}
+      </TextField>
+    </Grid>
+  </Grid>
+</Box>
+
+<Container maxWidth="md" sx={{ marginTop: 4 }}>
+      <Typography variant="h6" color="textPrimary" sx={{ marginTop: 2 }}>
+        Appendix C
+      </Typography>
+      <Box
+        sx={{
+          padding: 3,
+          border: "1px solid #ccc",
+          borderRadius: 2,
+          marginTop: 3,
+        }}
+      >
+        <Grid container spacing={2}>
+          {/* Breakeven */}
+          <Grid item xs={6}>
+            <TextField
+              select
+              fullWidth
+              label="Breakeven"
+              name="breakeven"
+              value={formData.breakeven}
+              onChange={handleInputChange}
+              required
+            >
+              {breakevenOptions.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          {/* Maximum Student Count */}
+          <Grid item xs={6}>
+            <TextField
+              select
+              fullWidth
+              label="Maximum Student Count"
+              name="maxStudentCount"
+              value={formData.maxStudentCount}
+              onChange={handleInputChange}
+              required
+            >
+              {maxStudentOptions.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          {/* Entry Requirement */}
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Entry Requirement"
+              name="entryRequirement"
+              value={formData.entryRequirement}
+              onChange={handleInputChange}
+              multiline
+              rows={4}
+              placeholder="Type Here..."
+              required
+            />
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
+
+
+{/* Divider */}
+<Divider sx={{ marginY: 2 }} />
+
+{/* Buttons */}
+<Box
+  sx={{
+    display: "flex",
+    justifyContent: "space-between",
+    marginTop: 2,
+  }}
+>
+  <Button variant="outlined" color="primary">
+    Back
+  </Button>
+  <Button variant="contained" color="primary">
+    Next
+  </Button>
+</Box>
+</Container>
+    </>
   );
 }
 
-export default CourseRegistration; // Fixed export name
+export default 
+
+
+CourseRegistration;
