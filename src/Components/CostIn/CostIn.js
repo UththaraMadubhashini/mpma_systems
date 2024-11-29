@@ -1,30 +1,46 @@
 import React, { useState } from "react";
 import {
   Box,
-  TextField,
   Button,
-  Typography,
+  Container,
   Grid,
+  TextField,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
   /*IconButton,*/
 } from "@mui/material";
-/*import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";*/
-import axios from "axios";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const CostInPage = () => {
-  // State for the main form
-  const [formData, setFormData] = useState({
+const CompleteCourseManagement = () => {
+  const [courseInfo, setCourseInfo] = useState({
     courseName: "",
     participants: "",
     duration: "",
     customerDivision: "",
-    panelMeetings: "",
-    personnelCount: "",
-    refreshmentValue: "",
-    documentation: "",
-    transport: "",
   });
 
-  // State for SLPA and Outside Resource Personnel tables
+  const [developmentRows, setDevelopmentRows] = useState([
+    { description: "Resource Personnel - no of panel meetings", nos: "", rate: "" },
+    { description: "Resource Personnel - no of personnel", nos: "", rate: "" },
+    { description: "Value of refreshment", nos: "", rate: "" },
+    { description: "Documentation", nos: "", rate: "" },
+    { description: "Transport (Km)", nos: "", rate: "" },
+  ]);
+
+  const [deliveryRows, setDeliveryRows] = useState([
+    { role: "S. T. M", hrs: "", rate: "" },
+    { role: "T. M", hrs: "", rate: "" },
+    { role: "A. T. M", hrs: "", rate: "" },
+    { role: "T. O", hrs: "", rate: "" },
+    { role: "Laborer", hrs: "", rate: "" },
+  ]);
+
   const [slpaRows, setSlpaRows] = useState([
     { category: "Category – A", hrs: "", rate: "" },
     { category: "Category – B", hrs: "", rate: "" },
@@ -35,259 +51,268 @@ const CostInPage = () => {
     { category: "Category – A", hrs: "", rate: "" },
     { category: "Category – B", hrs: "", rate: "" },
     { category: "Category – C", hrs: "", rate: "" },
+    { category: "Co-ordination", hrs: "", rate: "" },
   ]);
 
-  // Handlers for the main form
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  /*const [coordination, setCoordination] = useState({ hrs: "", rate: "" });*/
+
+  const handleCourseInfoChange = (field, value) => {
+    setCourseInfo({ ...courseInfo, [field]: value });
   };
 
-  // Handlers for table rows
-  const handleAddMore = (setRows, rows) => {
-    setRows([...rows, { category: "New Category", hrs: "", rate: "" }]);
-  };
-
-  const handleInputChange = (e, index, rows, setRows) => {
-    const { name, value } = e.target;
-    const updatedRows = [...rows];
-    updatedRows[index][name] = value;
+  const handleTableInputChange = (rows, setRows, index, field, value) => {
+    const updatedRows = rows.map((row, i) => (i === index ? { ...row, [field]: value } : row));
     setRows(updatedRows);
   };
 
-  // Form submit handler
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const combinedData = {
-      ...formData,
-      slpaRows,
-      outsideRows,
-    };
-
-    try {
-      const response = await axios.post(
-        "http://localhost/backend/save_form.php",
-        combinedData
-      );
-      alert(response.data.message);
-    } catch (error) {
-      console.error("Error submitting the form", error);
-    }
+  const handleAddDeliveryRow = () => {
+    setDeliveryRows([...deliveryRows, { role: "", hrs: "", rate: "" }]);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Course Information:", courseInfo);
+    console.log("Course Development Data:", developmentRows);
+    console.log("Course Delivery Data:", deliveryRows);
+    console.log("SLPA Resource Personnel:", slpaRows);
+    console.log("Outside Resource Personnel:", outsideRows);
+   /* console.log("Coordination:", coordination);*/
+    alert("Form submitted! Check the console for details.");
+  };
+
+ /* const handleBack = () => {
+    alert("Navigating back...");
+  };*/
+
   return (
-    <Box p={3} sx={{ maxWidth: 750, margin: "auto", bgcolor: "#f9f9f9", borderRadius: 8 }}>
-      <Typography variant="h5" alig="center" mb={3}>
-        Course & Batch Management Form
+    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Complete Course Management
       </Typography>
-      <form onSubmit={handleSubmit}>
-        {/* Main Form Fields */}
+
+      {/* Course Information */}
+      <Box sx={{ mb: 3 }}>
+        <Typography variant="h6" gutterBottom>
+          Course Information
+        </Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
+              fullWidth
               label="Course Name"
-              name="courseName"
-              value={formData.courseName}
-              onChange={handleChange}
-              fullWidth
+              value={courseInfo.courseName}
+              onChange={(e) => handleCourseInfoChange("courseName", e.target.value)}
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField
-              label="No. of Participants"
-              name="participants"
-              value={formData.participants}
-              onChange={handleChange}
+              fullWidth
+              label="No of Participants"
               type="number"
-              fullWidth
+              value={courseInfo.participants}
+              onChange={(e) => handleCourseInfoChange("participants", e.target.value)}
               required
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField
+              fullWidth
               label="Duration"
-              name="duration"
-              value={formData.duration}
-              onChange={handleChange}
-              fullWidth
+              value={courseInfo.duration}
+              onChange={(e) => handleCourseInfoChange("duration", e.target.value)}
               required
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
+              fullWidth
               label="Customer / Division"
-              name="customerDivision"
-              value={formData.customerDivision}
-              onChange={handleChange}
-              fullWidth
+              value={courseInfo.customerDivision}
+              onChange={(e) => handleCourseInfoChange("customerDivision", e.target.value)}
               required
             />
           </Grid>
-          <Typography variant="h6" mt={2} mb={1}>
-            A. Course Development Work
-          </Typography>
-          <Grid item xs={6}>
-            <TextField
-              label="Resource Personnel - No of Panel Meetings"
-              name="panelMeetings"
-              value={formData.panelMeetings}
-              onChange={handleChange}
-              type="number"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Resource Personnel - No of Personnel"
-              name="personnelCount"
-              value={formData.personnelCount}
-              onChange={handleChange}
-              type="number"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Value of Refreshment"
-              name="refreshmentValue"
-              value={formData.refreshmentValue}
-              onChange={handleChange}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Documentation"
-              name="documentation"
-              value={formData.documentation}
-              onChange={handleChange}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Transport (Km)"
-              name="transport"
-              value={formData.transport}
-              onChange={handleChange}
-              type="number"
-              fullWidth
-            />
-          </Grid>
         </Grid>
+      </Box>
 
-        {/* SLPA - Resources Personnel */}
-        <Typography variant="h6" mt={4} mb={2}>
-          SLPA - Resources Personnel
-        </Typography>
-        <Grid container spacing={2}>
-          {slpaRows.map((row, index) => (
-            <React.Fragment key={`slpa-${index}`}>
-              <Grid item xs={4}>
-                <TextField
-                  label="Category"
-                  name="category"
-                  value={row.category}
-                  fullWidth
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label="Hrs"
-                  name="hrs"
-                  value={row.hrs}
-                  onChange={(e) =>
-                    handleInputChange(e, index, slpaRows, setSlpaRows)
-                  }
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label="Rate per hr./ Cost"
-                  name="rate"
-                  value={row.rate}
-                  onChange={(e) =>
-                    handleInputChange(e, index, slpaRows, setSlpaRows)
-                  }
-                  fullWidth
-                />
-              </Grid>
-            </React.Fragment>
-          ))}
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleAddMore(setSlpaRows, slpaRows)}
-            >
-              Add More
-            </Button>
-          </Grid>
-        </Grid>
+      {/* Course Development Work */}
+      <Typography variant="h6" gutterBottom>
+        A. Course Development Work
+      </Typography>
+      <TableContainer component={Paper} sx={{ mb: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Description</TableCell>
+              <TableCell>Nos</TableCell>
+              <TableCell>Rate per hr / Cost</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {developmentRows.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.description}</TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.nos}
+                    onChange={(e) =>
+                      handleTableInputChange(developmentRows, setDevelopmentRows, index, "nos", e.target.value)
+                    }
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.rate}
+                    onChange={(e) =>
+                      handleTableInputChange(developmentRows, setDevelopmentRows, index, "rate", e.target.value)
+                    }
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-        {/* Outside - Resources Personnel */}
-        <Typography variant="h6" mt={4} mb={2}>
-          Outside - Resources Personnel
-        </Typography>
-        <Grid container spacing={2}>
-          {outsideRows.map((row, index) => (
-            <React.Fragment key={`outside-${index}`}>
-              <Grid item xs={4}>
-                <TextField
-                  label="Category"
-                  name="category"
-                  value={row.category}
-                  fullWidth
-                  disabled
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label="Hrs"
-                  name="hrs"
-                  value={row.hrs}
-                  onChange={(e) =>
-                    handleInputChange(e, index, outsideRows, setOutsideRows)
-                  }
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <TextField
-                  label="Rate per hr./ Cost"
-                  name="rate"
-                  value={row.rate}
-                  onChange={(e) =>
-                    handleInputChange(e, index, outsideRows, setOutsideRows)
-                  }
-                  fullWidth
-                />
-              </Grid>
-            </React.Fragment>
-          ))}
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleAddMore(setOutsideRows, outsideRows)}
-            >
-              Add More
-            </Button>
-          </Grid>
-        </Grid>
+      {/* Course Delivery */}
+      <Typography variant="h6" gutterBottom>
+        B. Course Delivery
+      </Typography>
+      <TableContainer component={Paper} sx={{ mb: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Human Resource</TableCell>
+              <TableCell>Hrs</TableCell>
+              <TableCell>Rate per hr./Cost</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {deliveryRows.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>
+                  <TextField
+                    fullWidth
+                    value={row.role}
+                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "role", e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.hrs}
+                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "hrs", e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.rate}
+                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "rate", e.target.value)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
+        <Button startIcon={<AddCircleOutlineIcon />} variant="outlined" onClick={handleAddDeliveryRow}>
+          Add More
+        </Button>
+      </Box>
 
-        {/* Submit Button */}
-        <Grid item xs={12} textAlign="center" mt={4}>
-          <Button variant="contained" type="submit">
-            Submit
-          </Button>
-        </Grid>
-      </form>
-    </Box>
+      {/* SLPA Resource Personnel */}
+      <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+        SLPA - Resources Personnel
+      </Typography>
+      <TableContainer component={Paper} sx={{ mb: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Category</TableCell>
+              <TableCell>Hrs</TableCell>
+              <TableCell>Rate per hr./Cost</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {slpaRows.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.category}</TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.hrs}
+                    onChange={(e) => handleTableInputChange(slpaRows, setSlpaRows, index, "hrs", e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.rate}
+                    onChange={(e) => handleTableInputChange(slpaRows, setSlpaRows, index, "rate", e.target.value)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Outside Resource Personnel */}
+      <Typography variant="h6" gutterBottom>
+        Outside - Resource Personnel
+      </Typography>
+      <TableContainer component={Paper} sx={{ mb: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Category</TableCell>
+              <TableCell>Hrs</TableCell>
+              <TableCell>Rate per hr./Cost</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {outsideRows.map((row, index) => (
+              <TableRow key={index}>
+                <TableCell>{row.category}</TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.hrs}
+                    onChange={(e) => handleTableInputChange(outsideRows, setOutsideRows, index, "hrs", e.target.value)}
+                  />
+                </TableCell>
+                <TableCell>
+                  <TextField
+                    type="number"
+                    fullWidth
+                    value={row.rate}
+                    onChange={(e) => handleTableInputChange(outsideRows, setOutsideRows, index, "rate", e.target.value)}
+                  />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+  
+      {/* Submit Button*/}   
+        <Button variant="contained" color="primary" onClick={handleSubmit}>
+          Submit
+        </Button>    
+    </Container>
   );
 };
 
-export default CostInPage;
+export default CompleteCourseManagement;
