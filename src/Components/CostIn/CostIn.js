@@ -1,22 +1,7 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  /*IconButton,*/
-} from "@mui/material";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-
+import CostIn2 from "./CostIn2";
+import CostIn3 from "./CostIn3"
+import CostIn4 from "./CostIn4"
 const CompleteCourseManagement = () => {
   const [courseInfo, setCourseInfo] = useState({
     courseName: "",
@@ -41,39 +26,14 @@ const CompleteCourseManagement = () => {
     { role: "Laborer", hrs: "", rate: "" },
   ]);
 
-  const [slpaRows, setSlpaRows] = useState([
-    { category: "Category – A", hrs: "", rate: "" },
-    { category: "Category – B", hrs: "", rate: "" },
-    { category: "Category – C", hrs: "", rate: "" },
-  ]);
-
-  const [outsideRows, setOutsideRows] = useState([
-    { category: "Category – A", hrs: "", rate: "" },
-    { category: "Category – B", hrs: "", rate: "" },
-    { category: "Category – C", hrs: "", rate: "" },
-    { category: "Co-ordination", hrs: "", rate: "" },
-  ]);
-
-
-    const [rows, setRows] = useState([
-      { description: "Transport - Km", qty: "", rate: "", amount: "" },
-      { description: "Tea", qty: "", rate: "", amount: "" },
-      { description: "Meals", qty: "", rate: "", amount: "" },
-      { description: "Certificates", qty: "", rate: "", amount: "" },
-      { description: "Teaching Aids / Multimedia", qty: "", rate: "", amount: "" },
-      { description: "Incidental Cost", qty: "", rate: "", amount: "" },
-      { description: "Maintenance Cost", qty: "", rate: "", amount: "" },
-      { description: "Administration Cost", qty: "", rate: "", amount: "" },
-    ]);
-
-  /*const [coordination, setCoordination] = useState({ hrs: "", rate: "" });*/
-
   const handleCourseInfoChange = (field, value) => {
     setCourseInfo({ ...courseInfo, [field]: value });
   };
 
   const handleTableInputChange = (rows, setRows, index, field, value) => {
-    const updatedRows = rows.map((row, i) => (i === index ? { ...row, [field]: value } : row));
+    const updatedRows = rows.map((row, i) =>
+      i === index ? { ...row, [field]: value } : row
+    );
     setRows(updatedRows);
   };
 
@@ -86,244 +46,167 @@ const CompleteCourseManagement = () => {
     console.log("Course Information:", courseInfo);
     console.log("Course Development Data:", developmentRows);
     console.log("Course Delivery Data:", deliveryRows);
-    console.log("SLPA Resource Personnel:", slpaRows);
-    console.log("Outside Resource Personnel:", outsideRows);
-   /* console.log("Coordination:", coordination);*/
     alert("Form submitted! Check the console for details.");
   };
 
- /* const handleBack = () => {
-    alert("Navigating back...");
-  };*/
-
   return (
-    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        Complete Course Management
-      </Typography>
+    <div className="mt-10"> 
+
+<div className="max-w-3xl mx-auto mt-20 p-6">
+<h1 className="text-2xl font-bold text-blue-500 ">Course & Batch Management</h1>
+<h1 className="text-sm font-bold text-gray-500">Home/Course & Batch Management/Cost-In</h1>
+</div>
+   
+    <div className="max-w-3xl mx-auto mt-[-20px] p-6 bg-white shadow border-black border-1 rounded-lg">
+     
 
       {/* Course Information */}
-      <Box sx={{ mb: 3 }}>
-        <Typography variant="h6" gutterBottom>
-          Course Information
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Course Name"
-              value={courseInfo.courseName}
-              onChange={(e) => handleCourseInfoChange("courseName", e.target.value)}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="No of Participants"
-              type="number"
-              value={courseInfo.participants}
-              onChange={(e) => handleCourseInfoChange("participants", e.target.value)}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Duration"
-              value={courseInfo.duration}
-              onChange={(e) => handleCourseInfoChange("duration", e.target.value)}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Customer / Division"
-              value={courseInfo.customerDivision}
-              onChange={(e) => handleCourseInfoChange("customerDivision", e.target.value)}
-              required
-            />
-          </Grid>
-        </Grid>
-      </Box>
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold mb-3">Course Information</h2>
+        <div className="grid grid-cols-1 gap-4">
+          <input
+            type="text"
+            className="w-full p-2 border rounded"
+            placeholder="Course Name"
+            value={courseInfo.courseName}
+            onChange={(e) => handleCourseInfoChange("courseName", e.target.value)}
+          />
+          <input
+            type="number"
+            className="w-full p-2 border rounded"
+            placeholder="No of Participants"
+            value={courseInfo.participants}
+            onChange={(e) => handleCourseInfoChange("participants", e.target.value)}
+          />
+          <input
+            type="text"
+            className="w-full p-2 border rounded"
+            placeholder="Duration"
+            value={courseInfo.duration}
+            onChange={(e) => handleCourseInfoChange("duration", e.target.value)}
+          />
+          <input
+            type="text"
+            className="w-full p-2 border rounded"
+            placeholder="Customer / Division"
+            value={courseInfo.customerDivision}
+            onChange={(e) =>
+              handleCourseInfoChange("customerDivision", e.target.value)
+            }
+          />
+        </div>
+      </div>
 
       {/* Course Development Work */}
-      <Typography variant="h6" gutterBottom>
-        A. Course Development Work
-      </Typography>
-      <TableContainer component={Paper} sx={{ mb: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Description</TableCell>
-              <TableCell>Nos</TableCell>
-              <TableCell>Rate per hr / Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold mb-3">A. Course Development Work</h2>
+        <table className="w-full border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border p-2">Description</th>
+              <th className="border p-2">Nos</th>
+              <th className="border p-2">Rate per hr / Cost</th>
+            </tr>
+          </thead>
+          <tbody>
             {developmentRows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.description}</TableCell>
-                <TableCell>
-                  <TextField
+              <tr key={index} className="border-t">
+                <td className="border p-2">{row.description}</td>
+                <td className="border p-2">
+                  <input
                     type="number"
-                    fullWidth
+                    className="w-full p-1 border rounded"
                     value={row.nos}
                     onChange={(e) =>
                       handleTableInputChange(developmentRows, setDevelopmentRows, index, "nos", e.target.value)
                     }
                   />
-                </TableCell>
-                <TableCell>
-                  <TextField
+                </td>
+                <td className="border p-2">
+                  <input
                     type="number"
-                    fullWidth
+                    className="w-full p-1 border rounded"
                     value={row.rate}
                     onChange={(e) =>
                       handleTableInputChange(developmentRows, setDevelopmentRows, index, "rate", e.target.value)
                     }
                   />
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
 
       {/* Course Delivery */}
-      <Typography variant="h6" gutterBottom>
-        B. Course Delivery
-      </Typography>
-      <TableContainer component={Paper} sx={{ mb: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Human Resource</TableCell>
-              <TableCell>Hrs</TableCell>
-              <TableCell>Rate per hr./Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold mb-3">B. Course Delivery</h2>
+        <table className="w-full border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border p-2">Human Resource</th>
+              <th className="border p-2">Hrs</th>
+              <th className="border p-2">Rate per hr / Cost</th>
+            </tr>
+          </thead>
+          <tbody>
             {deliveryRows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <TextField
-                    fullWidth
+              <tr key={index} className="border-t">
+                <td className="border p-2">
+                  <input
+                    type="text"
+                    className="w-full p-1 border rounded"
                     value={row.role}
-                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "role", e.target.value)}
+                    onChange={(e) =>
+                      handleTableInputChange(deliveryRows, setDeliveryRows, index, "role", e.target.value)
+                    }
+                    placeholder="Role"
                   />
-                </TableCell>
-                <TableCell>
-                  <TextField
+                </td>
+                <td className="border p-2">
+                  <input
                     type="number"
-                    fullWidth
+                    className="w-full p-1 border rounded"
                     value={row.hrs}
-                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "hrs", e.target.value)}
+                    onChange={(e) =>
+                      handleTableInputChange(deliveryRows, setDeliveryRows, index, "hrs", e.target.value)
+                    }
                   />
-                </TableCell>
-                <TableCell>
-                  <TextField
+                </td>
+                <td className="border p-2">
+                  <input
                     type="number"
-                    fullWidth
+                    className="w-full p-1 border rounded"
                     value={row.rate}
-                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "rate", e.target.value)}
+                    onChange={(e) =>
+                      handleTableInputChange(deliveryRows, setDeliveryRows, index, "rate", e.target.value)
+                    }
                   />
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
-        <Button startIcon={<AddCircleOutlineIcon />} variant="outlined" onClick={handleAddDeliveryRow}>
+          </tbody>
+        </table>
+        <button
+          className="mt-2 bg-gray-200 text-blue-600 px-3 py-1 rounded hover:bg-gray-300"
+          onClick={handleAddDeliveryRow}
+        >
           Add More
-        </Button>
-      </Box>
+        </button>
+      </div>
 
-      {/* SLPA Resource Personnel */}
-      <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
-        SLPA - Resources Personnel
-      </Typography>
-      <TableContainer component={Paper} sx={{ mb: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Category</TableCell>
-              <TableCell>Hrs</TableCell>
-              <TableCell>Rate per hr./Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {slpaRows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.category}</TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.hrs}
-                    onChange={(e) => handleTableInputChange(slpaRows, setSlpaRows, index, "hrs", e.target.value)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.rate}
-                    onChange={(e) => handleTableInputChange(slpaRows, setSlpaRows, index, "rate", e.target.value)}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* Outside Resource Personnel */}
-      <Typography variant="h6" gutterBottom>
-        Outside - Resource Personnel
-      </Typography>
-      <TableContainer component={Paper} sx={{ mb: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Category</TableCell>
-              <TableCell>Hrs</TableCell>
-              <TableCell>Rate per hr./Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {outsideRows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.category}</TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.hrs}
-                    onChange={(e) => handleTableInputChange(outsideRows, setOutsideRows, index, "hrs", e.target.value)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.rate}
-                    onChange={(e) => handleTableInputChange(outsideRows, setOutsideRows, index, "rate", e.target.value)}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-  
-      {/* Submit Button*/}   
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit
-        </Button>    
-    </Container>
+      <CostIn2/> 
+      <CostIn3/>    
+      <CostIn4/> 
+      {/* Submit Button */}
+      <button
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+    </div>
+    </div>
   );
 };
 
