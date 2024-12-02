@@ -95,7 +95,6 @@ function CourseRegistration() {
           padding: 3,
           border: "1px solid #ccc",
           borderRadius: 2,
-          boxShadow: 2,
         }}
       >
         <Grid container spacing={2}>
