@@ -14,7 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
   { text: "Administration Management", icon: <PeopleIcon />, path: "/admin-management", disabled: true },
-  { text: "Course & Batch Management", icon: <ClassIcon />, path: "/costIn" },
+  { text: "Course & Batch Management", icon: <ClassIcon />, path: "/course" },
   { text: "Student Management", icon: <SchoolIcon />, path: "/student-management", disabled: true },
   { text: "Exams & Certificates", icon: <ReceiptIcon />, path: "/exams-certificates", disabled: true },
   { text: "OJT", icon: <WorkIcon />, path: "/ojt", disabled: true },
@@ -34,7 +34,7 @@ const Sidebar = () => {
         height: "100vh", // Set the height to full viewport height
         overflowY: "auto",
         position: "fixed", // Fixed position to stay on the screen while scrolling
-        top: "110px", // Adjust for header height (assuming 80px for the header)
+        top: "120px", // Adjust for header height (assuming 80px for the header)
         left: 0,
         zIndex: 1200, // Ensure the sidebar appears above other content
       }}

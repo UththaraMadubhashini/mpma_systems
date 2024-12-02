@@ -1,101 +1,96 @@
-import React from 'react';
+import React from "react";
+import { TextField, Typography, Box, Grid } from "@mui/material";
 
 function ApprovalForm() {
   return (
-    <div className="mt-6">
+    <Box mt={6}>
       <form>
         {/* Prepared By */}
-        <div className="mb-4 mt-6">
-          <label htmlFor="preparedBy" className="block text-lg font-bold text-gray-700 mb-1">
+        <Box mb={4}>
+          <Typography variant="h6" gutterBottom>
             Prepared By:
-          </label>
-          <input
-            type="text"
-            id="preparedBy"
-            className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+          </Typography>
+          <TextField
+            fullWidth
+            variant="outlined"
             placeholder="Enter name"
+            id="preparedBy"
           />
-        </div>
+        </Box>
 
         {/* Checked By */}
-        <div className="mb-4">
-          <label htmlFor="checkedBy" className="block text-lg font-bold text-gray-700 mb-1">
+        <Box mb={4}>
+          <Typography variant="h6" gutterBottom>
             Checked By:
-          </label>
-          <input
-            type="text"
-            id="checkedBy"
-            className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+          </Typography>
+          <TextField
+            fullWidth
+            variant="outlined"
             placeholder="Enter name"
+            id="checkedBy"
           />
-        </div>
+        </Box>
 
         {/* Forwarded For Approval */}
-        <div className="mb-4">
-          <h3 className="text-lg font-bold text-gray-700 mb-2">Forwarded For Your Approval:</h3>
+        <Box mb={4}>
+          <Typography variant="h6" gutterBottom>
+            Forwarded For Your Approval:
+          </Typography>
 
-          <div className="mb-3">
-            <label htmlFor="ctm" className="block text-lg font-bold text-gray-700 mb-1">
-              C. T. M:
-            </label>
-            <input
-              type="text"
-              id="ctm"
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter name"
-            />
-          </div>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+              <Typography variant="body1">C. T. M:</Typography>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Enter name"
+                id="ctm"
+              />
+            </Grid>
 
-          <div className="mb-3">
-            <label htmlFor="dctm1" className="block text-lg font-bold text-gray-700 mb-1">
-              D. C. T. M 1:
-            </label>
-            <input
-              type="text"
-              id="dctm1"
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter name"
-            />
-          </div>
+            <Grid item xs={12}>
+              <Typography variant="body1">D. C. T. M 1:</Typography>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Enter name"
+                id="dctm1"
+              />
+            </Grid>
 
-          <div className="mb-3">
-            <label htmlFor="dctm2" className="block text-lg font-bold text-gray-700 mb-1">
-              D. C. T. M 2:
-            </label>
-            <input
-              type="text"
-              id="dctm2"
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter name"
-            />
-          </div>
+            <Grid item xs={12}>
+              <Typography variant="body1">D. C. T. M 2:</Typography>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Enter name"
+                id="dctm2"
+              />
+            </Grid>
 
-          <div className="mb-3">
-            <label htmlFor="tm" className="block text-lg font-bold text-gray-700 mb-1">
-              T. M:
-            </label>
-            <input
-              type="text"
-              id="tm"
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter name"
-            />
-          </div>
+            <Grid item xs={12}>
+              <Typography variant="body1">T. M:</Typography>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Enter name"
+                id="tm"
+              />
+            </Grid>
 
-          <div>
-            <label htmlFor="accountant" className="block text-lg font-bold text-gray-700 mb-1">
-              Accountant:
-            </label>
-            <input
-              type="text"
-              id="accountant"
-              className="block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter name"
-            />
-          </div>
-        </div>
+            <Grid item xs={12}>
+              <Typography variant="body1">Accountant:</Typography>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Enter name"
+                id="accountant"
+              />
+            </Grid>
+          </Grid>
+        </Box>
       </form>
-    </div>
+    </Box>
   );
 }
 
