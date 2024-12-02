@@ -14,7 +14,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
   { text: "Administration Management", icon: <PeopleIcon />, path: "/admin-management", disabled: true },
-  { text: "Course & Batch Management", icon: <ClassIcon />, path: "/course" },
+  { text: "Course & Batch Management", icon: <ClassIcon />, path: "/costIn" },
   { text: "Student Management", icon: <SchoolIcon />, path: "/student-management", disabled: true },
   { text: "Exams & Certificates", icon: <ReceiptIcon />, path: "/exams-certificates", disabled: true },
   { text: "OJT", icon: <WorkIcon />, path: "/ojt", disabled: true },
