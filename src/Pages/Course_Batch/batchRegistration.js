@@ -8,4 +8,4 @@ const batchRegistration = () => {
   )
 }
 
-export default batchRegistration
+export default batchRegistration;
