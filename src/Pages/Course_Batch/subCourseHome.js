@@ -9,13 +9,14 @@ import AddIcon from "@mui/icons-material/Add";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import { Link } from "react-router-dom";
 
 
 function Course() {
   return (
     <div>
       {/* <Header /> */}
-      <Container maxWidth="lg" sx={{ marginTop: "-15px", marginLeft:"275px" }}>
+      <Container maxWidth="lg" sx={{ marginTop: "-20px", marginLeft:"275px" }}>
         {/* Page Title */}
         <Typography variant="h5" color="primary" gutterBottom sx={{marginLeft:"-20px"}}>
           Course & Batch Management
@@ -25,7 +26,8 @@ function Course() {
         </Typography>
 
         {/* Button Section */}
-        <Box
+        <Box 
+          
           sx={{
             display: "flex",
             flexWrap: "wrap",
@@ -36,6 +38,8 @@ function Course() {
         >
           {/* Course Registration Button */}
           <Button
+            component={Link}
+            to="/course-registration"
             variant="outlined"
             startIcon={<EventNoteIcon />}
             sx={{
