@@ -60,6 +60,8 @@ function Course() {
 
           {/* Batch Registration Button */}
           <Button
+            component={Link}
+            to="/batch-registration"
             variant="outlined"
             startIcon={<AssignmentIcon />}
             sx={{
