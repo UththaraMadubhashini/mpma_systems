@@ -228,8 +228,8 @@ function CourseRegistration() {
             <TextField
               select
               fullWidth
-              label="Type"
-              name="durationType"
+              label="select"
+              name="durationSelect"
               value={formData.durationType}
               onChange={handleChange}
             >
@@ -261,8 +261,8 @@ function CourseRegistration() {
             <TextField
               select
               fullWidth
-              label="Type"
-              name="dayType"
+              label="select"
+              name="daySelect"
               value={formData.dayType}
               onChange={handleChange}
             >
