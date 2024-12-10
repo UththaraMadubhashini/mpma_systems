@@ -11,11 +11,17 @@ import {
   MenuItem,
 } from "@mui/material";
 
-const durations = ["Full Day", "Half Day", "Weeks", "Months"];
-const days = ["Week Days", "Week Ends", "Both"];
-const sessions = ["Full Day", "Half Day"];
+const durationsT = ["Full Day", "Half Day", "Weeks", "Months"];
+const daysT = ["Week Days", "Week Ends", "Both"];
+const sessionsT = ["Full Day", "Half Day"];
+
+const durations = Array.from({ length: 50 }, (_, i) => i + 1); // Duration: 1 to 50
+const days = [5, 2, 7]; // Days: 5, 2, 7
+const sessions = Array.from({ length: 40 }, (_, i) => i + 1); // Sessions: 1 to 40
+
 const maxLectureHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const categoryHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// const categoryHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const dayCount = [5,2,7];
 const breakevenOptions = [10, 15, 20, 25, 30];
 const maxStudentOptions = [10, 20, 30, 40, 50];
 
@@ -30,11 +36,11 @@ function CourseRegistration() {
     assessmentCriteria: [],
     fees: "",
     paymentConditions: "",
-    duration: "",
+    durationT: "",
     durationType: "",
-    day: "",
+    dayT: "",
     dayType: "",
-    session: "",
+    sessionT: "",
     sessionType: "",
     maxLectureHours: "",
     categoryA: "",
@@ -43,6 +49,9 @@ function CourseRegistration() {
     breakeven: "",
     maxStudentCount: "",
     entryRequirement: "",
+    duration: "",
+    day: "",
+    session: "",
   });
 
   const handleChange = (e) => {
@@ -217,7 +226,7 @@ function CourseRegistration() {
               onChange={handleChange}
               required
             >
-              {durations.map((option) => (
+              {durationsT.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
@@ -250,7 +259,7 @@ function CourseRegistration() {
               onChange={handleChange}
               required
             >
-              {days.map((option) => (
+              {daysT.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
@@ -281,9 +290,8 @@ function CourseRegistration() {
               name="session"
               value={formData.session}
               onChange={handleChange}
-              required
             >
-              {sessions.map((option) => (
+              {sessionsT.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
@@ -294,8 +302,8 @@ function CourseRegistration() {
             <TextField
               select
               fullWidth
-              label="Type"
-              name="sessionType"
+              label="Select"
+              name="sessionSelect"
               value={formData.sessionType}
               onChange={handleChange}
             >
@@ -317,57 +325,6 @@ function CourseRegistration() {
               required
             >
               {maxLectureHours.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              select
-              fullWidth
-              label="Category A Hours"
-              name="categoryA"
-              value={formData.categoryA}
-              onChange={handleChange}
-              required
-            >
-              {categoryHours.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              select
-              fullWidth
-              label="Category B Hours"
-              name="categoryB"
-              value={formData.categoryB}
-              onChange={handleChange}
-              required
-            >
-              {categoryHours.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              select
-              fullWidth
-              label="Breakeven Points"
-              name="breakeven"
-              value={formData.breakeven}
-              onChange={handleChange}
-              required
-            >
-              {breakevenOptions.map((option) => (
                 <MenuItem key={option} value={option}>
                   {option}
                 </MenuItem>
