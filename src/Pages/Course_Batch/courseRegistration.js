@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import {
   Box,
   Container,
@@ -15,13 +16,11 @@ const durationsT = ["Full Day", "Half Day", "Weeks", "Months"];
 const daysT = ["Week Days", "Week Ends", "Both"];
 const sessionsT = ["Full Day", "Half Day"];
 
-const durations = Array.from({ length: 50 }, (_, i) => i + 1); // Duration: 1 to 50
-const days = [5, 2, 7]; // Days: 5, 2, 7
-const sessions = Array.from({ length: 40 }, (_, i) => i + 1); // Sessions: 1 to 40
+const durations = Array.from({ length: 50 }, (_, i) => i + 1);
+const days = [5, 2, 7];
+const sessions = Array.from({ length: 40 }, (_, i) => i + 1);
 
-const maxLectureHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-// const categoryHours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const dayCount = [5,2,7];
+const maxLectureHours = Array.from({ length: 12 }, (_, i) => i + 1);
 const breakevenOptions = [10, 15, 20, 25, 30];
 const maxStudentOptions = [10, 20, 30, 40, 50];
 
@@ -43,15 +42,9 @@ function CourseRegistration() {
     sessionT: "",
     sessionType: "",
     maxLectureHours: "",
-    categoryA: "",
-    categoryB: "",
-    categoryC: "",
     breakeven: "",
     maxStudentCount: "",
     entryRequirement: "",
-    duration: "",
-    day: "",
-    session: "",
   });
 
   const handleChange = (e) => {
@@ -71,9 +64,14 @@ function CourseRegistration() {
     }));
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const handleSave = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/api/save-course", formData);
+      alert(response.data); // Display success message
+    } catch (error) {
+      console.error("Error saving course data:", error);
+      alert("Failed to save course data");
+    }
   };
 
   return (
@@ -81,12 +79,17 @@ function CourseRegistration() {
       <Typography variant="h5" color="primary" gutterBottom sx={{ marginTop: "100px" }}>
         Course & Batch Management
       </Typography>
-      <Typography variant="body2" color="textSecondary" gutterBottom sx={{ marginTop: "5px" }}>
+      <Typography
+        variant="body2"
+        color="textSecondary"
+        gutterBottom
+        sx={{ marginTop: "5px" }}
+      >
         Home / Course & Batch Management / <b>Course Registration</b>
       </Typography>
 
       <Box sx={{ padding: 3, border: "1px solid #ccc", borderRadius: 2, marginTop: 3 }}>
-        <Typography variant="h6" color="textPrimary" sx={{ marginTop: 2 }}>
+        <Typography variant="h6" color="textPrimary" sx={{ margin: 2 }}>
           Appendix A
         </Typography>
         <Grid container spacing={2}>
@@ -96,7 +99,7 @@ function CourseRegistration() {
               label="Course ID"
               name="courseId"
               value={formData.courseId}
-              onChange={handleInputChange}
+              onChange={handleChange}
               required
             />
           </Grid>
@@ -106,7 +109,7 @@ function CourseRegistration() {
               label="Stream"
               name="stream"
               value={formData.stream}
-              onChange={handleInputChange}
+              onChange={handleChange}
               required
             />
           </Grid>
@@ -116,7 +119,7 @@ function CourseRegistration() {
               label="Course Name"
               name="courseName"
               value={formData.courseName}
-              onChange={handleInputChange}
+              onChange={handleChange}
               required
             />
           </Grid>
@@ -197,7 +200,7 @@ function CourseRegistration() {
               name="fees"
               type="number"
               value={formData.fees}
-              onChange={handleInputChange}
+              onChange={handleChange}
               required
             />
           </Grid>
@@ -207,7 +210,7 @@ function CourseRegistration() {
               label="Payment Conditions"
               name="paymentConditions"
               value={formData.paymentConditions}
-              onChange={handleInputChange}
+              onChange={handleChange}
             />
           </Grid>
         </Grid>
@@ -221,8 +224,8 @@ function CourseRegistration() {
               select
               fullWidth
               label="Duration"
-              name="duration"
-              value={formData.duration}
+              name="durationT"
+              value={formData.durationT}
               onChange={handleChange}
               required
             >
@@ -237,8 +240,8 @@ function CourseRegistration() {
             <TextField
               select
               fullWidth
-              label="select"
-              name="durationSelect"
+              label="Duration Length"
+              name="durationType"
               value={formData.durationType}
               onChange={handleChange}
             >
@@ -254,8 +257,8 @@ function CourseRegistration() {
               select
               fullWidth
               label="Day"
-              name="day"
-              value={formData.day}
+              name="dayT"
+              value={formData.dayT}
               onChange={handleChange}
               required
             >
@@ -270,8 +273,8 @@ function CourseRegistration() {
             <TextField
               select
               fullWidth
-              label="select"
-              name="daySelect"
+              label="Day Count"
+              name="dayType"
               value={formData.dayType}
               onChange={handleChange}
             >
@@ -286,9 +289,9 @@ function CourseRegistration() {
             <TextField
               select
               fullWidth
-              label="Sessions"
-              name="session"
-              value={formData.session}
+              label="Session"
+              name="sessionT"
+              value={formData.sessionT}
               onChange={handleChange}
             >
               {sessionsT.map((option) => (
@@ -302,8 +305,8 @@ function CourseRegistration() {
             <TextField
               select
               fullWidth
-              label="Select"
-              name="sessionSelect"
+              label="Session Count"
+              name="sessionType"
               value={formData.sessionType}
               onChange={handleChange}
             >
@@ -314,15 +317,14 @@ function CourseRegistration() {
               ))}
             </TextField>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               select
               fullWidth
-              label="No of Maximum Lecture Hours"
+              label="Max Lecture Hours"
               name="maxLectureHours"
               value={formData.maxLectureHours}
               onChange={handleChange}
-              required
             >
               {maxLectureHours.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -331,23 +333,19 @@ function CourseRegistration() {
               ))}
             </TextField>
           </Grid>
-        </Grid>
-
-        <Typography variant="h6" color="textPrimary" gutterBottom  sx={{ marginTop: 2 }}>
-        Appendix C
-      </Typography>
-
+        </Grid>    
+          <Typography variant="h6" color="textPrimary" sx={{ margin: 2 }}>
+          Appendix C
+        </Typography>
         <Grid container spacing={2}>
-          {/* Breakeven */}
           <Grid item xs={6}>
             <TextField
               select
               fullWidth
-              label="Breakeven"
+              label="Breakeven Point"
               name="breakeven"
               value={formData.breakeven}
-              onChange={handleInputChange}
-              required
+              onChange={handleChange}
             >
               {breakevenOptions.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -356,17 +354,14 @@ function CourseRegistration() {
               ))}
             </TextField>
           </Grid>
-
-          {/* Maximum Student Count */}
           <Grid item xs={6}>
             <TextField
               select
               fullWidth
-              label="Maximum Student Count"
+              label="Max Student Count"
               name="maxStudentCount"
               value={formData.maxStudentCount}
-              onChange={handleInputChange}
-              required
+              onChange={handleChange}
             >
               {maxStudentOptions.map((option) => (
                 <MenuItem key={option} value={option}>
@@ -375,31 +370,24 @@ function CourseRegistration() {
               ))}
             </TextField>
           </Grid>
-
-          {/* Entry Requirement */}
           <Grid item xs={12}>
             <TextField
               fullWidth
               label="Entry Requirement"
               name="entryRequirement"
               value={formData.entryRequirement}
-              onChange={handleInputChange}
-              multiline
-              rows={4}
-              placeholder="Type Here..."
-              required
+              onChange={handleChange}
             />
           </Grid>
         </Grid>
-        
-      </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
-        <Button variant="outlined" color="primary">
-          Back
-        </Button>
-        <Button variant="contained" color="primary">
-          Next
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ marginTop: 3 }}
+          onClick={handleSave}
+        >
+          Save Course
         </Button>
       </Box>
     </Container>
