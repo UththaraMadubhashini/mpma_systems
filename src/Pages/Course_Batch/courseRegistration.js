@@ -67,7 +67,31 @@ function CourseRegistration() {
   const handleSave = async () => {
     try {
       const response = await axios.post("http://localhost:3001/api/save-course", formData);
-      alert(response.data); // Display success message
+      alert(response.data); 
+
+
+      setFormData({
+        courseId: "",
+        stream: "",
+        courseName: "",
+        medium: [],
+        location: [],
+        resources: [],
+        assessmentCriteria: [],
+        fees: "",
+        paymentConditions: "",
+        durationT: "",
+        durationType: "",
+        dayT: "",
+        dayType: "",
+        sessionT: "",
+        sessionType: "",
+        maxLectureHours: "",
+        breakeven: "",
+        maxStudentCount: "",
+        entryRequirement: "",
+      });
+
     } catch (error) {
       console.error("Error saving course data:", error);
       alert("Failed to save course data");
