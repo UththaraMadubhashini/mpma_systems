@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import TariffForm from "./TariffForm";
 import CostIn2 from "./CostIn2";
-import CostIn3 from "./CostIn3"
-import CostIn4 from "./CostIn4"
+import CostIn3 from "./CostIn3";
+import CostIn4 from "./CostIn4";
 import {
   Box,
   Button,
@@ -16,14 +17,43 @@ import {
   TableHead,
   TableRow,
   Paper,
-  /*IconButton,*/
 } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
+// Reusable Editable Table Component
+const EditableTable = ({ rows, columns, handleInputChange, setRows }) => (
+  <TableContainer component={Paper} sx={{ mb: 3 }}>
+    <Table>
+      <TableHead>
+        <TableRow>
+          {columns.map((col, index) => (
+            <TableCell key={index}>{col.label}</TableCell>
+          ))}
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rows.map((row, rowIndex) => (
+          <TableRow key={rowIndex}>
+            {columns.map((col, colIndex) => (
+              <TableCell key={colIndex}>
+                <TextField
+                  fullWidth
+                  type={col.type || "text"}
+                  value={row[col.field] || ""}
+                  onChange={(e) =>
+                    handleInputChange(rows, setRows, rowIndex, col.field, e.target.value)
+                  }
+                />
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+);
+
 const CompleteCourseManagement = () => {
- /* const [CourseBatchManagement, setCoursebatchManagement] = useState({
-    CourseBatchManagement:"",
-  })*/
   const [courseInfo, setCourseInfo] = useState({
     courseName: "",
     participants: "",
@@ -47,33 +77,6 @@ const CompleteCourseManagement = () => {
     { role: "Laborer", hrs: "", rate: "" },
   ]);
 
-  const [slpaRows, setSlpaRows] = useState([
-    { category: "Category – A", hrs: "", rate: "" },
-    { category: "Category – B", hrs: "", rate: "" },
-    { category: "Category – C", hrs: "", rate: "" },
-  ]);
-
-  const [outsideRows, setOutsideRows] = useState([
-    { category: "Category – A", hrs: "", rate: "" },
-    { category: "Category – B", hrs: "", rate: "" },
-    { category: "Category – C", hrs: "", rate: "" },
-    { category: "Co-ordination", hrs: "", rate: "" },
-  ]);
-
-
-    const [rows, setRows] = useState([
-      { description: "Transport - Km", qty: "", rate: "", amount: "" },
-      { description: "Tea", qty: "", rate: "", amount: "" },
-      { description: "Meals", qty: "", rate: "", amount: "" },
-      { description: "Certificates", qty: "", rate: "", amount: "" },
-      { description: "Teaching Aids / Multimedia", qty: "", rate: "", amount: "" },
-      { description: "Incidental Cost", qty: "", rate: "", amount: "" },
-      { description: "Maintenance Cost", qty: "", rate: "", amount: "" },
-      { description: "Administration Cost", qty: "", rate: "", amount: "" },
-    ]);
-
-  /*const [coordination, setCoordination] = useState({ hrs: "", rate: "" });*/
-
   const handleCourseInfoChange = (field, value) => {
     setCourseInfo({ ...courseInfo, [field]: value });
   };
@@ -92,31 +95,33 @@ const CompleteCourseManagement = () => {
     console.log("Course Information:", courseInfo);
     console.log("Course Development Data:", developmentRows);
     console.log("Course Delivery Data:", deliveryRows);
-    console.log("SLPA Resource Personnel:", slpaRows);
-    console.log("Outside Resource Personnel:", outsideRows);
-   /* console.log("Coordination:", coordination);*/
     alert("Form submitted! Check the console for details.");
   };
 
- /* const handleBack = () => {
-    alert("Navigating back...");
-  };*/
+  const developmentColumns = [
+    { label: "Description", field: "description" },
+    { label: "Nos", field: "nos", type: "number" },
+    { label: "Rate per hr / Cost", field: "rate", type: "number" },
+  ];
+
+  const deliveryColumns = [
+    { label: "Human Resource", field: "role" },
+    { label: "Hrs", field: "hrs", type: "number" },
+    { label: "Rate per hr./Cost", field: "rate", type: "number" },
+  ];
 
   return (
-    
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" gutterBottom>
         Complete Course Management
       </Typography>
 
-      {/* Header */}
-      <Typography variant="h5" color="primary" gutterBottom sx={{ marginTop: "25px"}}>
-          Course & Batch Management
-        </Typography>
-        <Typography variant="body2" color="textSecondary" gutterBottom sx={{ marginTop: "5px",}}>
-          Home / Course & Batch Management / <b>Cost In</b>
-        </Typography>
-        
+      <Typography variant="h5" color="primary" gutterBottom sx={{ marginTop: "25px" }}>
+        Course & Batch Management
+      </Typography>
+      <Typography variant="body2" color="textSecondary" gutterBottom sx={{ marginTop: "5px" }}>
+        Home / Course & Batch Management / <b>Cost In</b>
+      </Typography>
 
       {/* Course Information */}
       <Box sx={{ mb: 3 }}>
@@ -137,7 +142,7 @@ const CompleteCourseManagement = () => {
             <TextField
               fullWidth
               label="No of Participants"
-               type="number"
+              type="number"
               value={courseInfo.participants}
               onChange={(e) => handleCourseInfoChange("participants", e.target.value)}
               required
@@ -168,107 +173,40 @@ const CompleteCourseManagement = () => {
       <Typography variant="h6" gutterBottom>
         A. Course Development Work
       </Typography>
-      <TableContainer component={Paper} sx={{ mb: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Description</TableCell>
-              <TableCell>Nos</TableCell>
-              <TableCell>Rate per hr / Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {developmentRows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>{row.description}</TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.nos}
-                    onChange={(e) =>
-                      handleTableInputChange(developmentRows, setDevelopmentRows, index, "nos", e.target.value)
-                    }
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.rate}
-                    onChange={(e) =>
-                      handleTableInputChange(developmentRows, setDevelopmentRows, index, "rate", e.target.value)
-                    }
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <EditableTable
+        rows={developmentRows}
+        columns={developmentColumns}
+        handleInputChange={handleTableInputChange}
+        setRows={setDevelopmentRows}
+      />
 
       {/* Course Delivery */}
       <Typography variant="h6" gutterBottom>
         B. Course Delivery
       </Typography>
-      <TableContainer component={Paper} sx={{ mb: 3 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Human Resource</TableCell>
-              <TableCell>Hrs</TableCell>
-              <TableCell>Rate per hr./Cost</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {deliveryRows.map((row, index) => (
-              <TableRow key={index}>
-                <TableCell>
-                  <TextField
-                    fullWidth
-                    value={row.role}
-                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "role", e.target.value)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.hrs}
-                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "hrs", e.target.value)}
-                  />
-                </TableCell>
-                <TableCell>
-                  <TextField
-                    type="number"
-                    fullWidth
-                    value={row.rate}
-                    onChange={(e) => handleTableInputChange(deliveryRows, setDeliveryRows, index, "rate", e.target.value)}
-                  />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <EditableTable
+        rows={deliveryRows}
+        columns={deliveryColumns}
+        handleInputChange={handleTableInputChange}
+        setRows={setDeliveryRows}
+      />
       <Box sx={{ mt: 2, display: "flex", justifyContent: "flex-end" }}>
         <Button startIcon={<AddCircleOutlineIcon />} variant="outlined" onClick={handleAddDeliveryRow}>
           Add More
         </Button>
       </Box>
 
-      
+      <TariffForm />
       <CostIn2 />
       <CostIn3 />
       <CostIn4 />
-  
-      {/* Submit Button*/}   
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit
-        </Button>    
+
+      {/* Submit Button */}
+      <Button variant="contained" color="primary" onClick={handleSubmit}>
+        Submit
+      </Button>
     </Container>
   );
 };
 
 export default CompleteCourseManagement;
-
