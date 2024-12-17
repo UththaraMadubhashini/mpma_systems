@@ -137,7 +137,7 @@ const CompleteCourseManagement = () => {
             <TextField
               fullWidth
               label="No of Participants"
-              type="number"
+               type="number"
               value={courseInfo.participants}
               onChange={(e) => handleCourseInfoChange("participants", e.target.value)}
               required
