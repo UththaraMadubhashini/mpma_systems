@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { Link, useLocation } from "react-router-dom";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
 import ClassIcon from "@mui/icons-material/Class";
@@ -9,13 +10,16 @@ import DriveEtaIcon from "@mui/icons-material/DriveEta";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import WorkIcon from "@mui/icons-material/Work";
 import LogoutIcon from "@mui/icons-material/Logout";
+import MenuBookIcon from "@mui/icons-material/MenuBook"; // Add this import for the new icon
+
 
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon />, path: "/" },
   { text: "Administration Management", icon: <PeopleIcon />, path: "/admin-management" },
-  { text: "Course & Batch Management", icon: <ClassIcon />, path: "/course-batch-management", selected: true },
-  { text: "Student Management", icon: <SchoolIcon />, path: "/student-management" },
-  { text: "Exams & Certificates", icon: <ReceiptIcon />, path: "/exams-certificates" },
+  { text: "Course & Batch Management", icon: <ClassIcon />, path: "/costIn" },
+  { text: "Lecturer Management", icon: <MenuBookIcon />, path: "/lecturermanagement" }, // New menu item
+  { text: "Student Management", icon: <SchoolIcon />, path: "/studentManagement" },
+  { text: "Exams & Certificates", icon: <ReceiptIcon />, path: "/exam" },
   { text: "OJT", icon: <WorkIcon />, path: "/ojt" },
   { text: "Payments Management", icon: <PaymentsIcon />, path: "/payments-management" },
   { text: "Transport Management", icon: <DriveEtaIcon />, path: "/transport-management" },
@@ -23,26 +27,30 @@ const menuItems = [
   { text: "Off-boarding", icon: <LogoutIcon />, path: "/off-boarding" },
 ];
 
-function SideBar() {
+const Sidebar = () => {
+  const location = useLocation();
+
   return (
     <Box
       sx={{
-        width: "250px",
+        width: "300px",
         backgroundColor: "#ffffff",
-        boxShadow: "2px 0px 5px rgba(0,0,0,0.1)",
-        padding: "16px",
+        height: "100vh", // Adjust height to account for Header
+        position: "fixed",
+        top: "110px", // Match Header height
+        left: "10px",
       }}
     >
       <List>
-        {menuItems.map((item, index) => (
+        {menuItems.map((item) => (
           <ListItem key={item.text} disablePadding>
             <ListItemButton
-              component="a"
-              href={item.path}
+              component={Link}
+              to={item.path}
               sx={{
-                marginBottom: "8px",
-                border: item.selected ? "1px solid #150095" : "1px solid #e0e0e0",
-                backgroundColor: item.selected ? "#f0f7ff" : "white",
+                marginBottom: "6px", 
+                border: location.pathname === item.path ? "1px solid #150095" : "1px solid #e0e0e0",
+                backgroundColor: location.pathname === item.path ? "#f0f7ff" : "white",
                 borderRadius: "8px",
                 "&:hover": {
                   backgroundColor: "#f9f9f9",
@@ -51,7 +59,7 @@ function SideBar() {
             >
               <ListItemIcon
                 sx={{
-                  color: item.selected ? "#150095" : "#000",
+                  color: location.pathname === item.path ? "#150095" : "#000",
                   minWidth: "40px",
                 }}
               >
@@ -61,8 +69,8 @@ function SideBar() {
                 primary={item.text}
                 primaryTypographyProps={{
                   fontSize: "16px",
-                  fontWeight: item.selected ? "bold" : "normal",
-                  color: item.selected ? "#150095" : "#000",
+                  fontWeight: location.pathname === item.path ? "bold" : "normal",
+                  color: location.pathname === item.path ? "#150095" : "#000",
                 }}
               />
             </ListItemButton>
@@ -71,6 +79,6 @@ function SideBar() {
       </List>
     </Box>
   );
-}
+};
 
-export default SideBar;
+export default Sidebar;

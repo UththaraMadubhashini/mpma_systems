@@ -3,12 +3,17 @@ import { AppBar, Toolbar, Typography, Box, IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import logo from "../../Assets/logo.png";
-import SideBar from "../SlideBar/sideBar";
+
 
 function Header() {
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: "white", boxShadow: "none", padding: 2 }}>
+      <AppBar position="fixed" 
+      sx={{ 
+        backgroundColor: "white", 
+        boxShadow: "none", 
+        padding: 2 }}>
+          
         <Toolbar sx={{ justifyContent: "space-between", alignItems: "center" }}>
           {/* Left Section with Image and Custom Logo */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -73,9 +78,8 @@ function Header() {
         </Toolbar>
       </AppBar>
       
-      <SideBar />
     </>
   );
 }
 
-export default Header;
+export default Header;
