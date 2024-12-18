@@ -27,7 +27,7 @@ import logo from "../../Assets/logo.png";
 
 const menuItems = [
   { text: "Dashboard", icon: <DashboardIcon />, path: "/dashboard" },
-  { text: "Administration Management", icon: <PeopleIcon />, path: "/administration", disabled: false },
+  { text: "Administration Management", icon: <PeopleIcon />, path: "/administration" },
   { text: "Course & Batch Management", icon: <ClassIcon />, path: "/course", disabled: true },
   { text: "Student Management", icon: <SchoolIcon />, path: "/student-management", disabled: true },
   { text: "Exams & Certificates", icon: <ReceiptIcon />, path: "/exams-certificates", disabled: true },

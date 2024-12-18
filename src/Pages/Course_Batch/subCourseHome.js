@@ -36,6 +36,30 @@ function Course() {
             marginLeft:"-20px"
           }}
         >
+
+          {/* All Courses Button */}
+          <Button
+            component={Link}
+            to="/course-registration"
+            variant="outlined"
+            startIcon={<EventNoteIcon />}
+            sx={{
+              width: "200px",
+              height: "150px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              margin: "10px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              textTransform: "none",
+            }}
+          >
+            All Courses
+          </Button>
+          
+
           {/* Course Registration Button */}
           <Button
             component={Link}
