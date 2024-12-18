@@ -27,6 +27,7 @@ import CourseRegistration from "../Pages/Course_Batch/courseRegistration";
 import BatchRegistration from "../Pages/Course_Batch/batchRegistration";
 import InstituteSetup from "../Pages/Administration/institute_setup";
 import Administration from "../Pages/Administration/subAdminHome";
+import AllCourses from "../Pages/Course_Batch/allCourses";
 
 const Routers = () => {
   return (
@@ -36,6 +37,7 @@ const Routers = () => {
         <Route path="/course" element={<Course />} />
         <Route path="/course-registration" element={<CourseRegistration />} />
         <Route path="/batch-registration" element={<BatchRegistration />} />
+        <Route path="/all-courses" element={<AllCourses/>} />
         
       </Route>
 

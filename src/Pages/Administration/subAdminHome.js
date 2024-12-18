@@ -6,9 +6,9 @@ import {
   Box,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import EventNoteIcon from "@mui/icons-material/EventNote";
-import AssignmentIcon from "@mui/icons-material/Assignment";
-import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+// import AssignmentIcon from "@mui/icons-material/Assignment";
+// import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { Link } from "react-router-dom";
 import SideBarAdmin from "../../Components/SlideBar/sideBarAdmin";
 
@@ -38,12 +38,12 @@ function Administration() {
             marginLeft:"-20px"
           }}
         >
-          {/* Course Registration Button */}
+          {/* Institute setup Button */}
           <Button
             component={Link}
-            to="/course-registration"
+            to="/institute-setup"
             variant="outlined"
-            startIcon={<EventNoteIcon />}
+            startIcon={<AccountBalanceIcon />}
             sx={{
               width: "200px",
               height: "150px",
@@ -57,15 +57,15 @@ function Administration() {
               textTransform: "none",
             }}
           >
-            Course Registration
+            Institute Setup
           </Button>
 
           {/* Batch Registration Button */}
           <Button
             component={Link}
-            to="/batch-registration"
+            // to="/batch-registration"
             variant="outlined"
-            startIcon={<AssignmentIcon />}
+            // startIcon={<AssignmentIcon />}
             sx={{
               width: "200px",
               height: "150px",
@@ -79,13 +79,13 @@ function Administration() {
               textTransform: "none",
             }}
           >
-            Batch Registration
+            {/* Batch Registration */}
           </Button>
 
           {/* Cost-In Button */}
           <Button
             variant="outlined"
-            startIcon={<AttachMoneyIcon />}
+            // startIcon={<AttachMoneyIcon />}
             sx={{
               width: "200px",
               height: "150px",
@@ -99,7 +99,7 @@ function Administration() {
               textTransform: "none",
             }}
           >
-            Cost - In
+            {/* Cost - In */}
           </Button>
 
           {/* Add New Button */}

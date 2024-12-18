@@ -68,3 +68,18 @@ app.post('/api/save-course', (req, res) => {
 app.listen(3001, () => {
     console.log('Server running on port 3001');
 });
+
+// API endpoint to get all courses
+app.get('/api/courses', (req, res) => {
+    const sql = 'SELECT * FROM courses';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Failed to fetch courses:', err);
+            res.status(500).send('Error fetching courses data');
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+  
