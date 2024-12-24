@@ -82,4 +82,80 @@ app.get('/api/courses', (req, res) => {
     });
 });
 
+// API endpoint to update a course
+app.put('/api/courses/:courseId', (req, res) => {
+    const { courseId } = req.params;
+    const data = req.body;
+  
+    const sql = `
+      UPDATE courses SET 
+        course_name = ?, 
+        stream = ?, 
+        medium = ?, 
+        location = ?, 
+        resources = ?, 
+        assessment_criteria = ?, 
+        fees = ?, 
+        payment_conditions = ?, 
+        duration_t = ?, 
+        duration_type = ?, 
+        day_t = ?, 
+        day_type = ?, 
+        session_t = ?, 
+        session_type = ?, 
+        max_lecture_hours = ?, 
+        breakeven = ?, 
+        max_student_count = ?, 
+        entry_requirement = ? 
+      WHERE course_id = ?
+    `;
+  
+    db.query(sql, [
+      data.course_name,
+      data.stream,
+      JSON.stringify(data.medium),
+      JSON.stringify(data.location),
+      JSON.stringify(data.resources),
+      JSON.stringify(data.assessment_criteria),
+      data.fees,
+      data.payment_conditions,
+      data.duration_t,
+      data.duration_type,
+      data.day_t,
+      data.day_type,
+      data.session_t,
+      data.session_type,
+      data.max_lecture_hours,
+      data.breakeven,
+      data.max_student_count,
+      data.entry_requirement,
+      courseId,
+    ], (err, result) => {
+      if (err) {
+        console.error('Failed to update course:', err);
+        res.status(500).send('Failed to update course');
+      } else {
+        res.send('Course updated successfully!');
+      }
+    });
+  });
+  
+
+  // API endpoint to delete (archive) a course
+app.delete('/api/courses/:courseId', (req, res) => {
+    const { courseId } = req.params;
+  
+    const sql = 'DELETE FROM courses WHERE course_id = ?';
+  
+    db.query(sql, [courseId], (err, result) => {
+      if (err) {
+        console.error('Failed to delete course:', err);
+        res.status(500).send('Failed to delete course');
+      } else {
+        res.send('Course archived successfully!');
+      }
+    });
+  });
+  
+
   

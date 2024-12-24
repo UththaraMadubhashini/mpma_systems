@@ -40,7 +40,7 @@ function Course() {
           {/* All Courses Button */}
           <Button
             component={Link}
-            to="/course-registration"
+            to="/all-courses"
             variant="outlined"
             startIcon={<EventNoteIcon />}
             sx={{
