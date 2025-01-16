@@ -118,7 +118,10 @@ function AllCourses() {
         <TableContainer component={Paper} sx={{ marginTop: 4, maxHeight: 500, overflow: "auto" }}>
           <Table stickyHeader>
             <TableHead>
-              <TableRow>
+              <TableRow key="header-row">
+              <TableCell sx={{ color: "white", fontWeight: "bold", backgroundColor: "#150095" }}>
+                  No. of Courses
+                </TableCell>
                 <TableCell sx={{ color: "white", fontWeight: "bold", backgroundColor: "#150095" }}>
                   Course ID
                 </TableCell>
@@ -128,17 +131,99 @@ function AllCourses() {
                 <TableCell sx={{ color: "white", fontWeight: "bold", backgroundColor: "#150095" }}>
                   Course Name
                 </TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Medium</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Location</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Resources</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Assessment Criteria</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Fees</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Payment Conditions</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Duration</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Day</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Session</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Max Lecture Hours</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Breakeven</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Max Students</TableCell>
+                <TableCell sx={{color: 'white', fontWeight:'bold', backgroundColor: '#150095'}}>Entry Requirement</TableCell>
                 <TableCell sx={{ color: "white", fontWeight: "bold", backgroundColor: "#150095" }}>
                   Action
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {courses.map((course) => (
+              {courses.length > 0 ? (
+                courses.map((course, index) => (
                 <TableRow key={course.course_id}>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell>{course.course_id}</TableCell>
                   <TableCell>{course.stream}</TableCell>
                   <TableCell>{course.course_name}</TableCell>
+                  <TableCell>
+                    {(() => {
+                      try {
+                        const mediumArray = Array.isArray(course.medium)
+                          ? course.medium
+                          : JSON.parse(course.medium || "[]");
+                        return mediumArray.join(", ");
+                      } catch (e) {
+                        console.error("Error parsing medium:", e);
+                        return "N/A";
+                      }
+                    })()}
+                  </TableCell>
+                  <TableCell>
+                    {(() => {
+                      try {
+                        const locationArray = Array.isArray(course.location)
+                          ? course.location
+                          : JSON.parse(course.location || "[]");
+                        return locationArray.join(", ");
+                      } catch (e) {
+                        console.error("Error parsing location:", e);
+                        return "N/A";
+                      }
+                    })()}
+                  </TableCell>
+                  <TableCell>
+                    {(() => {
+                      try {
+                        const resourcesArray = Array.isArray(course.resources)
+                          ? course.resources
+                          : JSON.parse(course.resources || "[]");
+                        return resourcesArray.join(", ");
+                      } catch (e) {
+                        console.error("Error parsing resources:", e);
+                        return "N/A";
+                      }
+                    })()}
+                  </TableCell>
+                  <TableCell>
+                    {(() => {
+                      try {
+                        const assessmentArray = Array.isArray(course.assessment_criteria)
+                          ? course.assessment_criteria
+                          : JSON.parse(course.assessment_criteria || "[]");
+                        return assessmentArray.join(", ");
+                      } catch (e) {
+                        console.error("Error parsing assessment_criteria:", e);
+                        return "N/A";
+                      }
+                    })()}
+                  </TableCell>
+                  <TableCell>{course.fees}</TableCell>
+                  <TableCell>{course.payment_conditions}</TableCell>
+                  <TableCell>
+                    {course.duration_t} ({course.duration_type})
+                  </TableCell>
+                  <TableCell>
+                    {course.day_t} ({course.day_type})
+                  </TableCell>
+                  <TableCell>
+                    {course.session_t} ({course.session_type})
+                  </TableCell>
+                  <TableCell>{course.max_lecture_hours}</TableCell>
+                  <TableCell>{course.breakeven}</TableCell>
+                  <TableCell>{course.max_student_count}</TableCell>
+                  <TableCell>{course.entry_requirement}</TableCell>
                   <TableCell>
                     <Button
                       variant="contained"
@@ -159,7 +244,10 @@ function AllCourses() {
                     </Button>
                   </TableCell>
                 </TableRow>
-              ))}
+              ))
+            ) : (
+              <TableRow></TableRow>
+            )}
             </TableBody>
           </Table>
         </TableContainer>

@@ -18,7 +18,8 @@ const db = mysql.createConnection({
 db.connect((err) => {
     if (err) {
         console.error('Database connection failed:', err.stack);
-        return;
+        process.exit(1);
+        // return;
     }
     console.log('Connected to MySQL database.');
 });
@@ -70,7 +71,7 @@ app.listen(3001, () => {
 });
 
 // API endpoint to get all courses
-app.get('/api/courses', (req, res) => {
+app.get('/api/courses:courseId', (req, res) => {
     const sql = 'SELECT * FROM courses';
     db.query(sql, (err, results) => {
         if (err) {
@@ -157,5 +158,39 @@ app.delete('/api/courses/:courseId', (req, res) => {
     });
   });
   
+// API endpoint to fetch course details by ID
+app.get('/api/course/:courseId', (req, res) => {
+  const { courseId } = req.params;
+  const sql = 'SELECT * FROM courses WHERE course_id = ?';
+
+  db.query(sql, [courseId], (err, result) => {
+      if (err) {
+          console.error('Failed to fetch course details:', err);
+          res.status(500).send('Failed to fetch course details');
+      } else if (result.length === 0) {
+          res.status(404).send('Course not found');
+      } else {
+          res.json(result[0]);
+      }
+  });
+});
+
+app.get('/api/course/:courseId', (req, res) => {
+  const { courseId } = req.params;
+  const sql = 'SELECT * FROM courses WHERE course_id = ?';
+
+  db.query(sql, [courseId], (err, result) => {
+      if (err) {
+          console.error('Failed to fetch course details:', err);
+          res.status(500).send('Failed to fetch course details');
+      } else if (result.length === 0) {
+          res.status(404).send('Course not found');
+      } else {
+          res.json(result[0]);
+      }
+  });
+});
+
+
 
   

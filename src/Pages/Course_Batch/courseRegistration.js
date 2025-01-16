@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import {
@@ -58,6 +58,7 @@ function CourseRegistration() {
   });
 
   const [snackbar, setSnackbar] = React.useState({ open: false, message: "", severity: "success" });
+  const [courses, setCourses] = useState([]);
 
   const handleSnackbarClose = () => {
     setSnackbar({ ...snackbar, open: false });
@@ -67,6 +68,7 @@ function CourseRegistration() {
     try {
       await axios.post("http://localhost:3001/api/save-course", data);
       setSnackbar({ open: true, message: "Course saved successfully!", severity: "success" });
+      setCourses((prevCourses) => [data, ...prevCourses]);
       reset();
     } catch (error) {
       console.error("Error saving course data:", error);
@@ -83,13 +85,17 @@ function CourseRegistration() {
         Home / Course & Batch Management / <b>Course Registration</b>
       </Typography>
 
-      <Box sx={{ padding: 3, border: "1px solid #ccc", borderRadius: 2, marginTop: 3 }}>
-      <Typography variant="h6" color="textPrimary" sx={{ margin: 2 }}>
+      <Box sx={{ padding: 2, 
+      border: "1px solid #ccc", 
+      borderRadius: 2, 
+      marginTop: 3,
+       }}>
+      <Typography variant="h6" color="textPrimary" sx={{ padding: 2 }}>
           Appendix A
-        </Typography>
+      </Typography>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} >
             <Grid item xs={12} sm={6}>
               <Controller
                 name="courseId"
@@ -170,8 +176,9 @@ function CourseRegistration() {
               ))}
             </Grid>
 
-            <Grid container spacing={2}>
-          <Grid item xs={12}>
+            
+            <Grid item xs={12}>
+            
             <Typography variant="subtitle1" gutterBottom>
               Course Assessment Criteria*
             </Typography>
@@ -206,9 +213,9 @@ function CourseRegistration() {
                 )}
               />
             ))}
-          </Grid>
+            </Grid>
 
-          <Grid item xs={12}>
+            <Grid item xs={12}>
             <Typography variant="subtitle1" gutterBottom>
               Location*
             </Typography>
@@ -236,9 +243,9 @@ function CourseRegistration() {
                 )}
               />
             ))}
-          </Grid>
+            
 
-          <Grid item xs={12}>
+            <Grid item xs={12}>
             <Typography variant="subtitle1" gutterBottom>
               Resources*
             </Typography>
@@ -268,39 +275,8 @@ function CourseRegistration() {
                 />
               )
             )}
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Controller
-              name="fees"
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} fullWidth label="Fees" type="number" required />
-              )}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <Controller
-              name="paymentConditions"
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} fullWidth label="Payment Conditions" />
-              )}
-            />
-          </Grid>
-        </Grid>
-
-        <Typography variant="h6" color="textPrimary" sx={{ marginTop: 2 }}>
-          Appendix B
-        </Typography>
-
-        <Grid container spacing={2}>
-          {/* Duration, Day, Session Fields */}
-          {/* Similar fields can be added using Controller */}
-        </Grid>
-            
-
+            </Grid>
+            <Grid container spacing={2} >
             <Grid item xs={12} sm={6}>
               <Controller
                 name="fees"
@@ -321,10 +297,249 @@ function CourseRegistration() {
               />
             </Grid>
 
+            <Grid item xs={12} sm={6}>
+              <Controller
+                name="paymentConditions"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    label="Payment Conditions"
+                    error={!!errors.paymentConditions}
+                    helperText={errors.paymentConditions?.message}
+                  />
+                )}
+              />
+            </Grid>
+            </Grid>
+            </Grid>
+
+        <Typography variant="h6" color="textPrimary" sx={{ padding: 2 }}>
+          Appendix B
+        </Typography>
+
+        <Grid container spacing={2} >
+        <Grid item xs={12} sm={6}>
+              <Controller
+                name="durationT"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Duration"
+                    error={!!errors.durationT}
+                    helperText={errors.durationT?.message}
+                  >
+                    {durationsT.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="durationType"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Duration Length"
+                    error={!!errors.durationType}
+                    helperText={errors.durationType?.message}
+                  >
+                    {durations.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="dayT"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Day"
+                    error={!!errors.dayT}
+                    helperText={errors.dayT?.message}
+                  >
+                    {daysT.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="dayType"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Day Count"
+                    error={!!errors.dayType}
+                    helperText={errors.dayType?.message}
+                  >
+                    {days.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="sessionT"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Session"
+                    error={!!errors.sessionT}
+                    helperText={errors.sessionT?.message}
+                  >
+                    {sessionsT.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="sessionType"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Session Count"
+                    error={!!errors.sessionType}
+                    helperText={errors.sessionType?.message}
+                  >
+                    {sessions.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="MaxLectureHour"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Max Lecture Hours"
+                    error={!!errors.MaxLectureHour}
+                    helperText={errors.MaxLectureHour?.message}
+                  >
+                    {maxLectureHours.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
           </Grid>
-
-
-
+          <Typography variant="h6" color="textPrimary" sx={{ marginTop: 2 }}>
+            Appendix C
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Controller
+                name="breakeven"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Breakeven Point"
+                    error={!!errors.breakeven}
+                    helperText={errors.breakeven?.message}
+                  >
+                    {breakevenOptions.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Controller
+                name="maxStudentCount"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    fullWidth
+                    label="Max Student Count"
+                    error={!!errors.maxStudentCount}
+                    helperText={errors.maxStudentCount?.message}
+                  >
+                    {maxStudentOptions.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Controller
+                name="entryRequirement"
+                control={control}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    fullWidth
+                    label="Entry Requirement"
+                    error={!!errors.entryRequirement}
+                    helperText={errors.entryRequirement?.message}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+          </Grid>
 
           <Button
             type="submit"
